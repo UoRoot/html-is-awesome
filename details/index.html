@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>'<details>' element</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-content: center;
+      }
+
+      details {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 0.5em 0.5em 0;
+        background-color: #f0f0f0; /* Light background for details */
+      }
+
+      details[open] summary {
+        border-bottom: 1px solid #aaa;
+        margin-bottom: 0.5em;
+        background-color: #eee; /* Light background for open summaries */
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 0.5em;
+      }
+
+      .message {
+        position: fixed;
+        top: -50px;
+        left: 50%;
+        color: #333;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: fall-and-fade 2s ease-in-out forwards;
+      }
+
+      .open {
+        background-color: #1db859;
+        transform: translateX(-100%);
+      }
+
+      .closed {
+        background-color: #bd320c;
+        color: white;
+      }
+
+      @keyframes fall-and-fade {
+        0% {
+          top: -50px;
+          opacity: 0;
+        }
+        30% {
+          top: 20px;
+          opacity: 1;
+        }
+        100% {
+          top: 20px;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Documentation: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details -->
+    <div class="container">
+      <details open>
+        <summary>What is the best programming language?</summary>
+        <p>The best programming language is HTML</p>
+      </details>
+      <details name="my-group">
+        <summary>
+          Apart from HTML, what is the second best programming language?
+        </summary>
+        <p>Obviously, it's CSS.</p>
+      </details>
+      <details name="my-group">
+        <summary>What is the most efficient way to write code?</summary>
+        <p>Copy-pasting from Stack Overflow, of course!</p>
+      </details>
+    </div>
+
+    <script>
+      const details = document.querySelectorAll('details[name="my-group"]');
+
+      details.forEach((detail) => {
+        detail.addEventListener("toggle", () => {
+          const message = document.createElement("div");
+          const toggleType = detail.open ? "open" : "closed";
+          message.classList.add("message", toggleType);
+          message.textContent = "toggle-list " + toggleType;
+          document.body.appendChild(message);
+
+          setTimeout(() => {
+            message.remove();
+          }, 3000);
+        });
+      });
+    </script>
+  </body>
+</html>
